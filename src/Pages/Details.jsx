@@ -1,13 +1,38 @@
-import { useState } from "react";
 import { useLoaderData } from "react-router";
+// import { addToLS } from "../utility/utility";
+import { useEffect, useState } from "react";
+
+const getInitialData = () => {
+  const getData = localStorage.getItem("readList");
+  if (getData) {
+    const parsedData = JSON.parse(getData);
+    return parsedData;
+  } else {
+    return [];
+  }
+};
 
 export default function Details() {
   const selectedBook = useLoaderData();
-  const [addToList, setAddToList] = useState([]);
-  const handleList = () => {
-    setAddToList([...addToList, selectedBook])
-  }
-  console.log(addToList)
+
+  const [readList, setReadList] = useState(getInitialData());
+
+  useEffect(() => {
+    localStorage.setItem("readList", JSON.stringify(readList));
+  }, [readList]);
+
+  const addToRead = (book) => {
+    // addToLS(book);
+    const isExist = readList.find((bk) => bk.bookId == book.bookId);
+    if (isExist) {
+      alert("already exist");
+    } else {
+      alert("Added");
+
+      setReadList([...readList, book]);
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-center gap-12 max-w-7xl mx-auto my-10">
@@ -43,12 +68,13 @@ export default function Details() {
             <h2>Rating: {selectedBook.rating}</h2>
           </div>
           <div className="flex items-center justify-end gap-4">
-            <button className="ring-2 ring-green-400 font-semibold text-lg  px-4 py-2 rounded-lg">
+            <button
+              onClick={() => addToRead(selectedBook)}
+              className="ring-2 ring-green-400 font-semibold text-lg  px-4 py-2 rounded-lg"
+            >
               Read
             </button>
-            <button
-              onClick={() => handleList()}
-              className="bg-green-500 font-semibold text-lg  px-4 py-2 rounded-lg">
+            <button className="bg-green-500 font-semibold text-lg  px-4 py-2 rounded-lg">
               Wishlist
             </button>
           </div>

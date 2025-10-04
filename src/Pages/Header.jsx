@@ -17,7 +17,6 @@ export default function Header() {
             <NavLink
               className={"font-medium text-xl text-neutral-400"}
               to="/listed"
-              
             >
               Listed
             </NavLink>

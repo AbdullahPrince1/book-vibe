@@ -1,8 +1,8 @@
 import { Outlet } from "react-router";
-import Header from "./Pages/Header";
-import Footer from "./Pages/Footer";
+import Header from "../Header";
+import Footer from "../Footer";
 
-export default function Route() {
+export default function Root() {
   return (
     <>
       <Header />

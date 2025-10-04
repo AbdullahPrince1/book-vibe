@@ -1,10 +1,8 @@
 import { Star } from "lucide-react";
-
 import { Link, useLoaderData } from "react-router";
 
 export default function Home() {
   const booksData = useLoaderData();
-  
 
   return (
     <>
