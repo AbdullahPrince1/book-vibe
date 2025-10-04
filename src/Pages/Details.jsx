@@ -1,0 +1,59 @@
+import { useState } from "react";
+import { useLoaderData } from "react-router";
+
+export default function Details() {
+  const selectedBook = useLoaderData();
+  const [addToList, setAddToList] = useState([]);
+  const handleList = () => {
+    setAddToList([...addToList, selectedBook])
+  }
+  console.log(addToList)
+  return (
+    <>
+      <div className="flex items-center justify-center gap-12 max-w-7xl mx-auto my-10">
+        <div className="w-[40%]">
+          <figure>
+            <img src={selectedBook.image} alt="" />
+          </figure>
+        </div>
+        <div className="w-[50%] space-y-5">
+          <div>
+            <h1 className="font-bold text-5xl mb-2">{selectedBook.bookName}</h1>
+            <h3 className="font-medium text-xl text-neutral-500">
+              By: {selectedBook.author}
+            </h3>
+          </div>
+          <p className="font-medium text-xl text-neutral-500 border-b border-t py-3">
+            {selectedBook.category}
+          </p>
+          <p className="font-medium  text-neutral-500">
+            <span className="text-black font-bold">Review: </span>{" "}
+            {selectedBook.review}
+          </p>
+          <div className="flex items-center gap-4">
+            Tag:
+            {selectedBook.tags.map((tag, i) => (
+              <p key={i}>{tag}</p>
+            ))}
+          </div>
+          <div>
+            <h2>Number of Pages: {selectedBook.totalPages}</h2>
+            <h2>Publisher: {selectedBook.publisher}</h2>
+            <h2>Year Of Publishing: {selectedBook.yearOfPublishing}</h2>
+            <h2>Rating: {selectedBook.rating}</h2>
+          </div>
+          <div className="flex items-center justify-end gap-4">
+            <button className="ring-2 ring-green-400 font-semibold text-lg  px-4 py-2 rounded-lg">
+              Read
+            </button>
+            <button
+              onClick={() => handleList()}
+              className="bg-green-500 font-semibold text-lg  px-4 py-2 rounded-lg">
+              Wishlist
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
