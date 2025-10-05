@@ -1,7 +1,8 @@
 import { useLoaderData } from "react-router";
 // import { addToLS } from "../utility/utility";
-import { useEffect, useState } from "react";
 
+import { useEffect, useState } from "react";
+// * Read list
 const getInitialData = () => {
   const getData = localStorage.getItem("readList");
   if (getData) {
@@ -12,15 +13,31 @@ const getInitialData = () => {
   }
 };
 
+// * Wish List
+const getInitialWishlistData = () => {
+  const getWishlist = localStorage.getItem("wishList");
+  if (getWishlist) {
+    const parseWishlist = JSON.parse(getWishlist);
+    return parseWishlist;
+  } else {
+    return [];
+  }
+};
+
 export default function Details() {
   const selectedBook = useLoaderData();
-
   const [readList, setReadList] = useState(getInitialData());
-
+  const [wishlistBook, setWishlistBook] = useState(getInitialWishlistData());
+  // * read list
   useEffect(() => {
     localStorage.setItem("readList", JSON.stringify(readList));
   }, [readList]);
 
+  // * wish list
+  useEffect(() => {
+    localStorage.setItem("wishList", JSON.stringify(wishlistBook));
+  }, [wishlistBook]);
+  // * read list
   const addToRead = (book) => {
     // addToLS(book);
     const isExist = readList.find((bk) => bk.bookId == book.bookId);
@@ -28,8 +45,19 @@ export default function Details() {
       alert("already exist");
     } else {
       alert("Added");
-
       setReadList([...readList, book]);
+    }
+  };
+  // * Wish list
+  const addToWishList = (book) => {
+    const checkWishlist = wishlistBook.find(
+      (allBook) => allBook.bookId == book.bookId
+    );
+    if (checkWishlist) {
+      alert("already exist to wishlist");
+    } else {
+      alert("added to wish list");
+      setWishlistBook([...wishlistBook, book]);
     }
   };
 
@@ -74,7 +102,10 @@ export default function Details() {
             >
               Read
             </button>
-            <button className="bg-green-500 font-semibold text-lg  px-4 py-2 rounded-lg">
+            <button
+              onClick={() => addToWishList(selectedBook)}
+              className="bg-green-500 font-semibold text-lg  px-4 py-2 rounded-lg"
+            >
               Wishlist
             </button>
           </div>

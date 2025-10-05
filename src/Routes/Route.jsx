@@ -33,7 +33,6 @@ export const route = createBrowserRouter([
           const book = data.find((b) => b.bookId === Number(params.bookId));
           return book;
         },
-
         Component: Details,
       },
       {
